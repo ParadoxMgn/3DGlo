@@ -48,17 +48,17 @@ const timer = (deadline) => {
       timerMinutes.innerText = getStartTime.minuts < 10 ? `0${getStartTime.minuts}` : getStartTime.minuts;
       timerSeconds.innerText = getStartTime.seconds < 10 ? `0${getStartTime.seconds}` : getStartTime.seconds;
     } else {
+      timerDays.innerText = '';
       timerHours.innerText = '00';
       timerMinutes.innerText = '00';
       timerSeconds.innerText = '00';
+      clearInterval(idInterval);
     }
   };
 
+  let idInterval = setInterval(updateClock, 1000);
+
   showStartTime();
-
-  setInterval(updateClock, 1000);
-
-
 };
 
 export default timer;
