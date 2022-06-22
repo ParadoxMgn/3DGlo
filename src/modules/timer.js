@@ -19,6 +19,10 @@ const timer = (deadline) => {
   const getCountDays = () => {
     const getStartTime = getTimeRemaining();
 
+    if (!getStartTime.days) {
+      return '';
+    }
+
     if (getStartTime.days.toString().slice(-1) === '1' && getStartTime.days.toString().slice(-2) !== '11') {
       return `${getStartTime.days} день`;
     } else {
@@ -31,28 +35,14 @@ const timer = (deadline) => {
   };
 
   const addZero = num => {
-    const str = num < 10 ? '0' + num : num;
-
-    return str;
-  };
-
-  const showStartTime = () => {
-    const getStartTime = getTimeRemaining();
-
-    timerDays.innerText = getStartTime.days === 0 ? `` : getCountDays();
-    timerHours.innerText = addZero(getStartTime.hours);
-    timerMinutes.innerText = addZero(getStartTime.minuts);
-    timerSeconds.innerText = addZero(getStartTime.seconds);
-  };
-
-  const updateClock = () => {
     const getStartTime = getTimeRemaining();
 
     if (getStartTime.timeRemaining > 0) {
-      timerDays.innerText = getStartTime.days === 0 ? `` : getCountDays();
-      timerHours.innerText = addZero(getStartTime.hours);
-      timerMinutes.innerText = addZero(getStartTime.minuts);
-      timerSeconds.innerText = addZero(getStartTime.seconds);
+      const str = num < 10 ? '0' + num : num;
+
+      console.log(num);
+
+      return str;
     } else {
       timerDays.innerText = '';
       timerHours.innerText = '00';
@@ -60,11 +50,21 @@ const timer = (deadline) => {
       timerSeconds.innerText = '00';
       clearInterval(idInterval);
     }
+
   };
 
-  let idInterval = setInterval(updateClock, 1000);
+  const updateClock = () => {
+    const getStartTime = getTimeRemaining();
 
-  showStartTime();
+    timerDays.innerText = getCountDays();
+    timerHours.innerText = addZero(getStartTime.hours);
+    timerMinutes.innerText = addZero(getStartTime.minuts);
+    timerSeconds.innerText = addZero(getStartTime.seconds);
+  };
+
+  updateClock();
+
+  let idInterval = setInterval(updateClock, 1000);
 };
 
 export default timer;
