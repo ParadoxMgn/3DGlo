@@ -30,13 +30,19 @@ const timer = (deadline) => {
     }
   };
 
+  const addZero = num => {
+    const str = num < 10 ? '0' + num : num;
+
+    return str;
+  };
+
   const showStartTime = () => {
     const getStartTime = getTimeRemaining();
 
     timerDays.innerText = getStartTime.days === 0 ? `` : getCountDays();
-    timerHours.innerText = getStartTime.hours < 10 ? `0${getStartTime.hours}` : getStartTime.hours;
-    timerMinutes.innerText = getStartTime.minuts < 10 ? `0${getStartTime.minuts}` : getStartTime.minuts;
-    timerSeconds.innerText = getStartTime.seconds < 10 ? `0${getStartTime.seconds}` : getStartTime.seconds;
+    timerHours.innerText = addZero(getStartTime.hours);
+    timerMinutes.innerText = addZero(getStartTime.minuts);
+    timerSeconds.innerText = addZero(getStartTime.seconds);
   };
 
   const updateClock = () => {
@@ -44,9 +50,9 @@ const timer = (deadline) => {
 
     if (getStartTime.timeRemaining > 0) {
       timerDays.innerText = getStartTime.days === 0 ? `` : getCountDays();
-      timerHours.innerText = getStartTime.hours < 10 ? `0${getStartTime.hours}` : getStartTime.hours;
-      timerMinutes.innerText = getStartTime.minuts < 10 ? `0${getStartTime.minuts}` : getStartTime.minuts;
-      timerSeconds.innerText = getStartTime.seconds < 10 ? `0${getStartTime.seconds}` : getStartTime.seconds;
+      timerHours.innerText = addZero(getStartTime.hours);
+      timerMinutes.innerText = addZero(getStartTime.minuts);
+      timerSeconds.innerText = addZero(getStartTime.seconds);
     } else {
       timerDays.innerText = '';
       timerHours.innerText = '00';
