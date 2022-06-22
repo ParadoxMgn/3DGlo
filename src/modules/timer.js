@@ -4,6 +4,8 @@ const timer = (deadline) => {
   const timerMinutes = document.getElementById('timer-minutes');
   const timerSeconds = document.getElementById('timer-seconds');
 
+  let idInterval;
+
   const getTimeRemaining = () => {
     const dateStop = new Date(deadline).getTime();
     const dateNow = new Date().getTime();
@@ -16,19 +18,24 @@ const timer = (deadline) => {
     return { days, hours, minuts, seconds, timeRemaining };
   };
 
+  const timeRemaining = getTimeRemaining();
+
   const getCountDays = () => {
     const getStartTime = getTimeRemaining();
 
-    if (!getStartTime.days) {
+    if (getStartTime.days <= 0) {
       return '';
     }
 
     if (getStartTime.days.toString().slice(-1) === '1' && getStartTime.days.toString().slice(-2) !== '11') {
+
       return `${getStartTime.days} день`;
     } else {
       if (getStartTime.days.toString().slice(-1) === '2' && getStartTime.days.toString().slice(-2) !== '12' || getStartTime.days.toString().slice(-1) === '3' && getStartTime.days.toString().slice(-2) !== '13' || getStartTime.days.toString().slice(-1) === '4' && getStartTime.days.toString().slice(-2) !== '14') {
+
         return `${getStartTime.days} дня`;
       } else {
+
         return `${getStartTime.days} дней`;
       }
     }
@@ -40,17 +47,10 @@ const timer = (deadline) => {
     if (getStartTime.timeRemaining > 0) {
       const str = num < 10 ? '0' + num : num;
 
-      console.log(num);
-
       return str;
     } else {
-      timerDays.innerText = '';
-      timerHours.innerText = '00';
-      timerMinutes.innerText = '00';
-      timerSeconds.innerText = '00';
-      clearInterval(idInterval);
+      return '00';
     }
-
   };
 
   const updateClock = () => {
@@ -60,11 +60,18 @@ const timer = (deadline) => {
     timerHours.innerText = addZero(getStartTime.hours);
     timerMinutes.innerText = addZero(getStartTime.minuts);
     timerSeconds.innerText = addZero(getStartTime.seconds);
+
+    if (getStartTime.timeRemaining <= 0) {
+      clearInterval(idInterval);
+    }
+    console.log(1);
   };
 
   updateClock();
 
-  let idInterval = setInterval(updateClock, 1000);
+  if (timeRemaining.timeRemaining > 0) {
+    idInterval = setInterval(updateClock, 1000);
+  }
 };
 
 export default timer;
