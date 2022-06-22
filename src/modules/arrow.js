@@ -1,32 +1,42 @@
 const arrow = () => {
   const arrow = document.querySelector('main>a');
+  const img = arrow.querySelector('img');
 
-  const animArrow = () => {
-    let count = 0;
+  const animArrow = (up, down) => {
+    let top = 0;
     let bool = true;
+    const move = () => {
+      requestAnimationFrame(move);
 
-    const anim = () => {
+      if (top > down) { bool = !bool; }
+      if (top < up) { bool = !bool; }
 
-      if (count === 50) {
-        bool = false;
-      }
-      if (count === 0) {
-        bool = true;
-      }
       if (bool) {
-        count += 50;
+        if (top > 10) {
+          img.style.top = (top += 0.6) + 'px';
+        } else {
+          img.style.top = (top += 0.8) + 'px';
+        }
       } else {
-        count -= 50;
+        if (top < -10) {
+          img.style.top = (top -= 0.6) + 'px';
+        } else {
+          img.style.top = (top -= 0.8) + 'px';
+        }
       }
-      arrow.style.transform = `translateY(${count}%)`;
     };
 
-    anim();
-
-    setInterval(anim, 1000);
+    move();
   };
 
-  animArrow();
+  arrow.style.position = 'relative';
+  arrow.style.width = '17px';
+  arrow.style.height = '49px';
+  img.style.position = 'absolute';
+  img.style.left = '0';
+  img.style.top = '0';
+
+  animArrow(-15, 15);
 };
 
 export default arrow;
