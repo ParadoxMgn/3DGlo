@@ -1,14 +1,13 @@
 const scrolling = () => {
-  const menu = document.querySelector('menu');
-  const menuList = menu.querySelectorAll('ul>li>a');
-  const serviceBlock = document.getElementById('service-block');
+  const menuList = document.querySelectorAll('menu ul>li>a');
   const arrow = document.querySelector('main>a');
+
+  const getId = elem => elem.href.slice(elem.href.lastIndexOf('#') + 1);
 
   arrow.addEventListener('click', e => {
     e.preventDefault();
 
-    const id = arrow.href.slice(arrow.href.lastIndexOf('#') + 1);
-    const block = document.getElementById(`${id}`);
+    const block = document.getElementById(`${getId(arrow)}`);
     let scrollTop = document.documentElement.scrollTop;
     const iteration = (block.offsetTop - scrollTop) / 20;
 
@@ -27,47 +26,13 @@ const scrolling = () => {
   });
 
   menuList.forEach(item => {
-    const id = item.href.slice(item.href.lastIndexOf('#') + 1);
-
     item.addEventListener('click', e => {
       e.preventDefault();
 
-      let element = document.getElementById(`${id}`);
+      let element = document.getElementById(`${getId(item)}`);
       element.scrollIntoView({ block: "start", behavior: "smooth" });
     });
   });
-
-  const animArrow = () => {
-    let count = 0;
-    let bool = true;
-
-    const anim = () => {
-      // requestAnimationFrame(anim);
-
-
-
-      if (count === 50) {
-        bool = false;
-      }
-      if (count === 0) {
-        bool = true;
-      }
-      if (bool) {
-        count += 50;
-      } else {
-        count -= 50;
-      }
-      arrow.style.transform = `translateY(${count}%)`;
-    };
-
-    anim();
-
-    setInterval(anim, 1000);
-  };
-
-  animArrow();
-
-
 };
 
 export default scrolling;
