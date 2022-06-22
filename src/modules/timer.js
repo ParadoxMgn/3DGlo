@@ -45,9 +45,8 @@ const timer = (deadline) => {
     const getStartTime = getTimeRemaining();
 
     if (getStartTime.timeRemaining > 0) {
-      const str = num < 10 ? '0' + num : num;
+      return num < 10 ? '0' + num : num;
 
-      return str;
     } else {
       return '00';
     }

@@ -1,3 +1,3 @@
 import timer from './modules/timer';
 
-timer('22 june 2022 20:00:00');
+timer('29 june 2022 20:00:00');
