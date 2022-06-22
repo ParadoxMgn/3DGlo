@@ -64,7 +64,6 @@ const timer = (deadline) => {
     if (getStartTime.timeRemaining <= 0) {
       clearInterval(idInterval);
     }
-    console.log(1);
   };
 
   updateClock();
