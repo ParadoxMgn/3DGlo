@@ -3,6 +3,8 @@ const scrolling = () => {
   const arrow = document.querySelector('main>a');
   const block = document.getElementById('service-block');
 
+  const getId = elem => elem.href.slice(elem.href.lastIndexOf('#') + 1);
+
   arrow.addEventListener('click', e => {
     e.preventDefault();
 
