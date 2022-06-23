@@ -9,15 +9,17 @@ const scrolling = () => {
     let scrollTop = document.documentElement.scrollTop;
     const iteration = (block.offsetTop - scrollTop) / 20;
 
+    console.log(scrollTop);
+
     const scrollDown = () => {
       let idScroll = requestAnimationFrame(scrollDown);
+
+      scrollTop += iteration;
+      document.documentElement.scrollTop = scrollTop;
 
       if (document.documentElement.scrollTop >= block.offsetTop) {
         cancelAnimationFrame(idScroll);
       }
-
-      scrollTop += iteration;
-      document.documentElement.scrollTop = scrollTop;
     };
 
     scrollDown();
