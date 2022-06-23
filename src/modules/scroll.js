@@ -12,12 +12,12 @@ const scrolling = () => {
     const scrollDown = () => {
       let idScroll = requestAnimationFrame(scrollDown);
 
-      scrollTop += iteration;
-      document.documentElement.scrollTop = scrollTop;
-
       if (document.documentElement.scrollTop >= block.offsetTop) {
         cancelAnimationFrame(idScroll);
       }
+
+      scrollTop += iteration;
+      document.documentElement.scrollTop = scrollTop;
     };
 
     scrollDown();
