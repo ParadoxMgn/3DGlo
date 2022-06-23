@@ -1,13 +1,11 @@
 const scrolling = () => {
   const menuList = document.querySelectorAll('menu ul>li>a');
   const arrow = document.querySelector('main>a');
-
-  const getId = elem => elem.href.slice(elem.href.lastIndexOf('#') + 1);
+  const block = document.getElementById('service-block');
 
   arrow.addEventListener('click', e => {
     e.preventDefault();
 
-    const block = document.getElementById(`${getId(arrow)}`);
     let scrollTop = document.documentElement.scrollTop;
     const iteration = (block.offsetTop - scrollTop) / 20;
 
@@ -17,7 +15,7 @@ const scrolling = () => {
       scrollTop += iteration;
       document.documentElement.scrollTop = scrollTop;
 
-      if (document.documentElement.scrollTop === block.offsetTop) {
+      if (document.documentElement.scrollTop >= block.offsetTop) {
         cancelAnimationFrame(idScroll);
       }
     };
