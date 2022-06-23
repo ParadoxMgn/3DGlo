@@ -6,39 +6,58 @@ const validation = () => {
   const inputsEmail = document.querySelectorAll('input[type="email"]');
   const inputsTel = document.querySelectorAll('input[type="tel"]');
 
+  const replaceHyphen = elem => {
+    elem.value = elem.value.replace(/\-+/g, '-');
+    elem.value = elem.value.replace(/^[\s\-]+/g, '');
+    elem.value = elem.value.replace(/[\s\-]+$/g, '');
+  };
+
+  const replaceText = elem => {
+    elem.value = elem.value.replace(/[^а-я\s\-]+/gi, '');
+    elem.value = elem.value.replace(/\s+/g, ' ');
+    replaceHyphen(elem);
+  };
+
   calcItems.forEach(item => {
-    item.addEventListener('input', e => {
+    item.addEventListener('blur', e => {
       if (item !== calcType) {
-        e.target.value = e.target.value.replace(/\D+/, '');
+        e.target.value = e.target.value.replace(/\D+/g, '');
       }
     });
   });
 
   inputsText.forEach(item => {
     let bool = true;
-    item.addEventListener('input', e => {
+    item.addEventListener('blur', e => {
       calcItems.forEach(calcItem => {
         if (e.target === calcItem) {
           bool = false;
         }
       });
       if (bool) {
-        e.target.value = e.target.value.replace(/[^а-я\s\-]+/i, '');
+        replaceText(e.target);
+        e.target.value = e.target.value.replace(/^([а-я])([a-я\s\-]+)/gi, (str, $1, $2) => {
+          return `${$1.toUpperCase()}${$2.toLowerCase()}`;
+        });
       }
     });
   });
 
-  mess.addEventListener('input', e => e.target.value = e.target.value.replace(/[^а-я\s\-]+/i, ''));
+  mess.addEventListener('blur', e => {
+    replaceText(e.target);
+  });
 
   inputsEmail.forEach(item => {
-    item.addEventListener('input', e => {
-      e.target.value = e.target.value.replace(/[^a-z0-9\@\-\_\.\!\~\*\']+/i, '');
+    item.addEventListener('blur', e => {
+      e.target.value = e.target.value.replace(/[^a-z0-9\@\-\_\.\!\~\*\']+/gi, '');
+      replaceHyphen(e.target);
     });
   });
 
   inputsTel.forEach(item => {
-    item.addEventListener('input', e => {
-      e.target.value = e.target.value.replace(/[^0-9\(\-\)]+/, '');
+    item.addEventListener('blur', e => {
+      e.target.value = e.target.value.replace(/[^0-9\(\-\)]+/g, '');
+      replaceHyphen(e.target);
     });
   });
 };
