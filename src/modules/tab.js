@@ -1,4 +1,4 @@
-const tabs = () => {
+const tab = () => {
   const serviceHeader = document.querySelector('.service-header');
   const serviceHeaderTab = document.querySelectorAll('.service-header-tab');
   const serviceTab = document.querySelectorAll('.service-tab');
@@ -16,4 +16,4 @@ const tabs = () => {
   });
 };
 
-export default tabs;
+export default tab;
