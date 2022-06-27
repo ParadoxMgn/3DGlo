@@ -1,12 +1,10 @@
 const modal = () => {
-  const popupBtn = document.querySelectorAll('.popup-btn');
   const popup = document.querySelector('.popup');
-  const popupClose = document.querySelector('.popup-close');
   const popupContent = document.querySelector('.popup-content');
+  const service = document.querySelector('.service');
 
-
-  popupBtn.forEach(item => {
-    item.addEventListener('click', () => {
+  service.addEventListener('click', e => {
+    if (e.target.classList.contains('popup-btn')) {
       let opacity = 0;
       popupContent.style.opacity = `${opacity}`;
       popup.style.display = 'block';
@@ -28,16 +26,15 @@ const modal = () => {
       };
 
       animPoup();
-    });
+    }
   });
 
-  popupClose.addEventListener('click', () => {
-    popup.style.display = 'none';
-    popupContent.style.opacity = '0';
+  popup.addEventListener('click', e => {
+    if (e.target.classList.contains('popup') || e.target.classList.contains('popup-close')) {
+      popup.style.display = 'none';
+      popupContent.style.opacity = '0';
+    }
   });
-
-
-
 };
 
 export default modal;
