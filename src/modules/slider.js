@@ -79,8 +79,6 @@ const slider = (classSlider, classSlide, classSlideDefault) => {
   startSlide(2000);
   autoSlide();
   stopSlide();
-
-
 };
 
 export default slider;
