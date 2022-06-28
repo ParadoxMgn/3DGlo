@@ -71,12 +71,20 @@ const slider = (classSlider, classSlide, classSlideDefault) => {
     }, true);
   };
 
+  const scrollToSlide = () => {
+    if (window.pageYOffset >= 1000) {
+      startSlide(2000);
+      document.removeEventListener('scroll', scrollToSlide);
+    }
+  };
+
   if (!portfolioContent || !portfolioItem) {
     return;
   }
 
+  document.addEventListener('scroll', scrollToSlide);
+
   createDots();
-  startSlide(2000);
   autoSlide();
   stopSlide();
 };
