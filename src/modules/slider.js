@@ -78,7 +78,9 @@ const slider = (classSlider, classSlide, classSlideDefault) => {
     }
   };
 
-  if (!portfolioContent || !portfolioItem) {
+
+
+  if (!portfolioContent || portfolioItem.length === 0 || !document.querySelector(`.${classSlideDefault}`)) {
     return;
   }
 
