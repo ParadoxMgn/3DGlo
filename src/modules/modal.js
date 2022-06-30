@@ -9,6 +9,7 @@ const modal = () => {
     if (e.target.classList.contains('popup-btn')) {
       popupContent.style.transform = 'scale(0, 0) rotate(0deg)';
       popup.style.display = 'block';
+      document.body.style.overflow = 'hidden';
 
       animate({
         duration: 700,
@@ -25,6 +26,7 @@ const modal = () => {
   popup.addEventListener('click', e => {
     if (e.target.classList.contains('popup') || e.target.classList.contains('popup-close')) {
       popup.style.display = 'none';
+      document.body.style.overflow = 'auto';
     }
   });
 };
