@@ -20,27 +20,6 @@ const slider = (classSlider, classSlide, classSlideDefault) => {
     id = setInterval(() => { slide(1, null); }, timeOut);
   };
 
-  const autoSlide = () => {
-    portfolioContent.addEventListener('click', e => {
-      const dot = document.querySelectorAll('.dot');
-      e.preventDefault();
-
-      if (e.target.matches('.next')) {
-        slide(1, e.target);
-      }
-
-      if (e.target.matches('.prev')) {
-        slide(-1, e.target);
-      }
-
-      dot.forEach((item, index) => {
-        if (e.target === item) {
-          slide(0, item, index);
-        }
-      });
-    });
-  };
-
   const slide = (arrow, element, index = 0) => {
     const dot = document.querySelectorAll('.dot');
 
@@ -78,16 +57,32 @@ const slider = (classSlider, classSlide, classSlideDefault) => {
     }
   };
 
-
-
   if (!portfolioContent || portfolioItem.length === 0 || !document.querySelector(`.${classSlideDefault}`)) {
     return;
   }
 
+  portfolioContent.addEventListener('click', e => {
+    const dot = document.querySelectorAll('.dot');
+    e.preventDefault();
+
+    if (e.target.matches('.next')) {
+      slide(1, e.target);
+    }
+
+    if (e.target.matches('.prev')) {
+      slide(-1, e.target);
+    }
+
+    dot.forEach((item, index) => {
+      if (e.target === item) {
+        slide(0, item, index);
+      }
+    });
+  });
+
   document.addEventListener('scroll', scrollToSlide);
 
   createDots();
-  autoSlide();
   stopSlide();
 };
 

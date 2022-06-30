@@ -9,7 +9,7 @@ import tab from './modules/tab';
 import slider from './modules/slider';
 import calc from './modules/calc';
 
-timer('29 june 2022 20:00:00');
+timer('07 july 2022 20:00:00');
 menu();
 modal();
 scrolling();

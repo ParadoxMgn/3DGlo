@@ -1,3 +1,5 @@
+import { animate } from './helper';
+
 const calc = (price) => {
   const calcBlock = document.querySelector('.calc-block');
   const calcType = document.querySelector('.calc-type');
@@ -9,8 +11,6 @@ const calc = (price) => {
 
   let current = 0;
   let prev = 0;
-  let multy = 0;
-  let count = 0;
 
   const countCalcType = () => {
     if (calcType.options[calcType.selectedIndex].value != '') {
@@ -19,6 +19,7 @@ const calc = (price) => {
       return 0;
     }
   };
+
   const countCalcSquare = () => {
     if (calcSquare.value != '' && !isNaN(calcSquare.value)) {
       return calcSquare.value;
@@ -26,6 +27,7 @@ const calc = (price) => {
       return 0;
     }
   };
+
   const countCalcCount = () => {
     if (calcCount.value != '' && calcCount.value != '1') {
       if (isNaN(calcCount.value)) {
@@ -36,6 +38,7 @@ const calc = (price) => {
       return 1;
     }
   };
+
   const countCalcDay = () => {
     if (calcDay.value != '') {
       if (isNaN(calcDay.value)) {
@@ -63,39 +66,30 @@ const calc = (price) => {
     };
   };
 
-  const setAnimDiffCalc = () => {
-    count = 0;
+  const animCalc = () => {
     prev = current;
     current = Math.round(price * countCalcType() * countCalcSquare() * countCalcCount() * countCalcDay());
-    multy = (current - prev) / 20;
-  };
-
-  const animDiffCalc = () => {
-    const id = requestAnimationFrame(animDiffCalc);
-    count += multy;
-
-    total.innerText = Math.round(prev + count);
-
-    if (+total.innerText === current) {
-      cancelAnimationFrame(id);
-    }
-  };
-
-  const animCalc = () => {
-    setAnimDiffCalc();
 
     if (current !== prev) {
-      animDiffCalc();
+      animate({
+        duration: 400,
+        timing(timeFraction) {
+          return timeFraction;
+        },
+        draw(progress) {
+          total.innerText = Math.round(prev + (current - prev) * progress);
+        }
+      });
     }
   };
+
+  calcBlock.addEventListener('input', debounce(animCalc, 400));
 
   calcItem.forEach(item => {
     item.addEventListener('blur', () => {
       animCalc();
     });
   });
-
-  calcBlock.addEventListener('input', debounce(animCalc, 400));
 };
 
 export default calc;
