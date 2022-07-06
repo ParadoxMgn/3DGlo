@@ -18,9 +18,8 @@ const sendForm = ({ formId, someElem = [] }) => {
     error: 'Ошибка, отправки данных!'
   };
 
-  const validate = () => {
+  const validate = (inputs) => {
     let success = true;
-    const inputs = form.querySelectorAll('input');
 
     inputs.forEach(item => {
       if (item.value.trim() === '') {
@@ -43,27 +42,27 @@ const sendForm = ({ formId, someElem = [] }) => {
   };
 
   const submitForm = () => {
-    if (validate()) {
-      const inputs = form.querySelectorAll('input');
-      const formData = new FormData(form);
-      const formBody = {};
+    const inputs = form.querySelectorAll('input');
+    const formData = new FormData(form);
+    const formBody = {};
 
+    formData.forEach((val, key) => {
+      formBody[key] = val;
+    });
+
+    someElem.forEach(item => {
+      if (item.type === 'block') {
+        formBody[item.id] = document.getElementById(item.id).textContent;
+      }
+      if (item.type === 'input' || item.type === 'select') {
+        formBody[item.id] = document.querySelector(`.${item.id}`).value;
+      }
+    });
+
+    if (validate(inputs)) {
       preLoad.innerHTML = message.load;
       preLoad.style.color = '#fff';
       form.append(preLoad);
-
-      formData.forEach((val, key) => {
-        formBody[key] = val;
-      });
-
-      someElem.forEach(item => {
-        if (item.type === 'block') {
-          formBody[item.id] = document.getElementById(item.id).textContent;
-        }
-        if (item.type === 'input' || item.type === 'select') {
-          formBody[item.id] = document.querySelector(`.${item.id}`).value;
-        }
-      });
 
       sendData({ formBody })
         .then(data => {
@@ -76,7 +75,6 @@ const sendForm = ({ formId, someElem = [] }) => {
           preLoad.innerText = message.error;
         });
     }
-
   };
 
   try {
@@ -91,9 +89,6 @@ const sendForm = ({ formId, someElem = [] }) => {
   } catch (error) {
     console.log(error.message);
   }
-
-
-
 };
 
 export default sendForm;
