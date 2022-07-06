@@ -13,7 +13,13 @@ const validation = () => {
   };
 
   const replaceText = elem => {
-    elem.value = elem.value.replace(/[^а-я\s\-]+/gi, '');
+    elem.value = elem.value.replace(/[^а-я\s]+/gi, '');
+    elem.value = elem.value.replace(/\s+/g, ' ');
+    replaceHyphen(elem);
+  };
+
+  const replaceMess = elem => {
+    elem.value = elem.value.replace(/[^0-9а-я\s\.\,\?\!\:\;\"\']+/gi, '');
     elem.value = elem.value.replace(/\s+/g, ' ');
     replaceHyphen(elem);
   };
@@ -36,7 +42,7 @@ const validation = () => {
       });
       if (bool) {
         replaceText(e.target);
-        e.target.value = e.target.value.replace(/^([а-я])([a-я\s\-]+)/gi, (str, $1, $2) => {
+        e.target.value = e.target.value.replace(/^([а-я])([a-я\s]+)/gi, (str, $1, $2) => {
           return `${$1.toUpperCase()}${$2.toLowerCase()}`;
         });
       }
@@ -44,7 +50,7 @@ const validation = () => {
   });
 
   mess.addEventListener('blur', e => {
-    replaceText(e.target);
+    replaceMess(e.target);
   });
 
   inputsEmail.forEach(item => {
@@ -56,7 +62,7 @@ const validation = () => {
 
   inputsTel.forEach(item => {
     item.addEventListener('blur', e => {
-      e.target.value = e.target.value.replace(/[^0-9\(\-\)]+/g, '');
+      e.target.value = e.target.value.replace(/[^0-9\(\-\)\+]+/g, '');
       replaceHyphen(e.target);
     });
   });
