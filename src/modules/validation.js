@@ -7,9 +7,7 @@ const validation = () => {
   const inputsTel = document.querySelectorAll('input[type="tel"]');
 
   const replaceHyphen = elem => {
-    elem.value = elem.value.replace(/\-+/g, '-');
-    elem.value = elem.value.replace(/^[\s\-]+/g, '');
-    elem.value = elem.value.replace(/[\s\-]+$/g, '');
+    elem.value = elem.value.replace(/[\s\-\(\)\+]+$/g, '');
   };
 
   const replaceText = elem => {
@@ -62,10 +60,42 @@ const validation = () => {
 
   inputsTel.forEach(item => {
     item.addEventListener('blur', e => {
-      e.target.value = e.target.value.replace(/[^0-9\(\-\)\+]+/g, '');
       replaceHyphen(e.target);
+    });
+    item.addEventListener('input', e => {
+      checkPhone(e.target);
+      e.target.value = e.target.value.replace(/\-+/g, '-');
+      e.target.value = e.target.value.replace(/\++/g, '+');
+      e.target.value = e.target.value.replace(/\(+/g, '(');
+      e.target.value = e.target.value.replace(/\)+/g, ')');
+      e.target.value = e.target.value.replace(/^[\s\-\(\)]+/g, '');
+      e.target.value = e.target.value.replace(/[^0-9\(\-\)\+]+/g, '');
     });
   });
 };
 
-export default validation;
+const checkPhone = (elem) => {
+  let count = 0;
+  let len = 0;
+  let arr = [];
+
+  arr = elem.value.split('');
+  arr.forEach((item, index) => {
+    if (/[0-9]/.test(item)) {
+      count++;
+    }
+
+    if (count <= 13) {
+      len = index + 1;
+    }
+  });
+
+  elem.value = arr.join('').slice(0, len);
+  if (count < 11) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export { validation, checkPhone };

@@ -1,5 +1,9 @@
+import { checkPhone } from './validation';
+
 const sendForm = ({ formId, someElem = [] }) => {
   const form = document.getElementById(formId);
+  const inputs = form.querySelectorAll('input');
+  const btn = form.querySelector('.btn');
   const preLoad = document.createElement('div');
   const message = {
     load: `
@@ -20,11 +24,22 @@ const sendForm = ({ formId, someElem = [] }) => {
 
   const validate = (inputs) => {
     let success = true;
-
     inputs.forEach(item => {
-      if (item.value.trim() === '') {
+
+      if (item.value.trim() === '' && !item.classList.contains('mess')) {
+        item.setCustomValidity('Поле не должно быть пустым!');
+      }
+
+      if (item.type === "tel" && item.value.trim() !== '' && checkPhone(item)) {
+        item.setCustomValidity('Номер телефона должен быть не меньше 11 цифр!');
+      }
+
+      item.addEventListener('invalid', e => {
+        item.classList.add('error');
+      });
+
+      if (!item.checkValidity()) {
         success = false;
-        alert('Заполните все поля!');
       }
     });
 
@@ -42,22 +57,25 @@ const sendForm = ({ formId, someElem = [] }) => {
   };
 
   const submitForm = () => {
-    const inputs = form.querySelectorAll('input');
     const formData = new FormData(form);
     const formBody = {};
 
     formData.forEach((val, key) => {
-      formBody[key] = val;
+      if (val) {
+        formBody[key] = val;
+      }
     });
 
     someElem.forEach(item => {
-      if (item.type === 'block') {
+      if (item.type === 'block' && document.getElementById(item.id).textContent !== "0") {
         formBody[item.id] = document.getElementById(item.id).textContent;
       }
-      if (item.type === 'input' || item.type === 'select') {
+      if ((item.type === 'input' || item.type === 'select') && document.querySelector(`.${item.id}`).value.trim()) {
         formBody[item.id] = document.querySelector(`.${item.id}`).value;
       }
     });
+
+    console.log(inputs);
 
     if (validate(inputs)) {
       preLoad.innerHTML = message.load;
@@ -81,6 +99,22 @@ const sendForm = ({ formId, someElem = [] }) => {
     if (!form) {
       throw new Error('Форма не найдена!');
     }
+
+    btn.addEventListener('click', e => {
+      validate(inputs);
+    });
+
+
+    form.addEventListener('input', e => {
+      inputs.forEach(item => {
+        if (e.target === item) {
+          item.classList.remove('error');
+          item.setCustomValidity('');
+        }
+      });
+    });
+
+
     form.addEventListener('submit', e => {
       e.preventDefault();
 

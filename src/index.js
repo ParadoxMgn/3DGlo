@@ -4,7 +4,7 @@ import modal from './modules/modal';
 import scrolling from './modules/scroll';
 import arrow from './modules/arrow';
 import placeholder from './modules/placeholder';
-import validation from './modules/validation';
+import { validation } from './modules/validation';
 import tab from './modules/tab';
 import slider from './modules/slider';
 import calc from './modules/calc';

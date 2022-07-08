@@ -5,21 +5,30 @@ const modal = () => {
   const popupContent = document.querySelector('.popup-content');
   const service = document.querySelector('.service');
 
+  popupContent.style.position = 'relative';
+  popupContent.style.left = '0';
+  popupContent.style.top = '0';
+  popupContent.style.margin = '120px auto';
+
   service.addEventListener('click', e => {
     if (e.target.classList.contains('popup-btn')) {
-      popupContent.style.transform = 'scale(0, 0) rotate(0deg)';
       popup.style.display = 'block';
       document.body.style.overflow = 'hidden';
 
-      animate({
-        duration: 700,
-        timing(timeFraction) {
-          return Math.pow(timeFraction, 2);
-        },
-        draw(progress) {
-          popupContent.style.transform = `scale(${progress}, ${progress}) rotate(${720 * progress}deg)`;
-        }
-      });
+      if (document.documentElement.clientWidth > 768) {
+        popupContent.style.transform = 'scale(0, 0) rotate(0deg)';
+
+        animate({
+          duration: 700,
+          timing(timeFraction) {
+            return Math.pow(timeFraction, 2);
+          },
+          draw(progress) {
+            popupContent.style.transform = `scale(${progress}, ${progress}) rotate(${720 * progress}deg)`;
+          }
+        });
+      }
+
     }
   });
 
